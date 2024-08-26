@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Service!</title>
+    <style>
+        /* Basic styling for the email */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        p {
+            color: #555;
+            line-height: 1.6;
+        }
+        .code {
+
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 40%;
+            font-size: 18px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Welcome to Auth app!</h1>
+    <p>Hi  <%=username%>,</p>
+    <p>Thank you for Registering to our app. To complete your registration, please verify your account by using the code below:</p>
+
+    <div class="code"><%=code%></div> <!-- Replace with dynamic code -->
+
+    <p>Enter this code in the verification section of our app to activate your account.</p>
+    <p>If you did not create an account, please ignore this email.</p>
+
+    <p>Thank you for choosing our service!</p>
+
+    <div class="footer">
+        <p>If you have any questions, feel free to contact us at <a href="<%=email%>"><%=email%></a>.</p>
+    </div>
+</div>
+</body>
+</html>
