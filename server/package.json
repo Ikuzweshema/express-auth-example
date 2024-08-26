@@ -4,7 +4,8 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "build":"npm install"
   },
   "dependencies": {
     "@sendgrid/mail": "^8.1.3",
