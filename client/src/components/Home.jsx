@@ -22,7 +22,7 @@ export default function Home() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://express-auth-example.onrender.com/api/auth/login",
 
         {
           email: formData.email,

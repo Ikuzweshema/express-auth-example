@@ -26,7 +26,7 @@ export default function Verify() {
     try {
       setIsLoading(true)
       const res = await axios.post(
-        `http://localhost:5000/api/auth/verify/`,
+        `https://express-auth-example.onrender.com/api/auth/verify/`,
         {
           id: id,
           code: code,
@@ -56,7 +56,7 @@ export default function Verify() {
     setIsRequesting(true)
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/resend",
+        "https://express-auth-example.onrender.com/api/auth/resend",
         {
           id: id,
         },

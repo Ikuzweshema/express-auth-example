@@ -23,7 +23,7 @@ export default function Nav() {
   const navigate = useNavigate();
   const { session, clearSession } = useSession();
   async function handleLogout() {
-    const res = await axios.delete("http://localhost:5000/api/auth/logout", {
+    const res = await axios.delete("https://express-auth-example.onrender.com/api/auth/logout", {
       withCredentials: true,
     });
     if (res.status === 200) {
