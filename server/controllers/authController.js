@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const secret = process.env.AUTH_SECRET;
 require("dotenv").config();
 const User = require("../model/userModel");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const UserOtp = require("../model/userOtp");
 const { sendEmailVerify } = require("./emailController");
 

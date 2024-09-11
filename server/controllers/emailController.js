@@ -1,6 +1,6 @@
 const sendEmail = require("../config/email/email");
 const renderHtml = require("../config/email/template");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const UserOtp = require("../model/userOtp");
 const User=require("../model/userModel")
 
