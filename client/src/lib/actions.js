@@ -1,28 +1,38 @@
-import validator from "validator";
+import { z } from "zod";
 
+const userSchema = z
+  .object({
+    email: z.string().email({
+      message: "This is not an email",
+    }),
+    username: z.string().min(2, {
+      message: "username is Required",
+    }),
+    password: z.string().min(4, {
+      message: "This password is weak",
+    }),
+    cpassword: z.string().min(4, {
+      message: "please confirm password",
+    }),
+  })
+  .refine((data) => data.password === data.cpassword, {
+    message: "Passwords mis match",
+  });
 export const validate = (email, username, password, cpassword) => {
-  let validationErrors = {};
-
-  if (!validator.isEmail(email) || "") {
-    validationErrors.email = "Email is required";
+  const validated = userSchema.safeParse({
+    email,
+    username,
+    password,
+    cpassword,
+  });
+  if (!validated.success) {
+    return {
+      success: false,
+      errors: validated.error.formErrors,
+    };
   }
-
-  if (validator.isEmpty(username)) {
-    validationErrors.username = "Username is required";
-  }
-
-  if (!validator.isStrongPassword(password, { minLength: 8 })) {
-    validationErrors.password = "This Password is Weak";
-  }
-
-  if (password !== cpassword) {
-    validationErrors.cpassword = "Passwords do not match";
-  }
-
-  return validationErrors? validationErrors:true;
+  return {
+    success: true,
+    data: validated.data,
+  };
 };
-export function isCookieSet() {
-  return document.cookie
-    .split(";")
-    .some((cookie) => cookie.trim().startsWith("token"));
-}

@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
-
 export const sessionContext = createContext({});
 
 export const SessionProvider = ({ children }) => {
@@ -10,11 +9,10 @@ export const SessionProvider = ({ children }) => {
     user: {},
   });
 
-
   const getUser = async () => {
     try {
       const res = await axios.get(
-        "https://express-auth-example.onrender.com/api/auth/session",
+        `${import.meta.env.VITE_SEVER_URL}/api/auth/session`,
         {
           withCredentials: true,
         }
@@ -26,23 +24,15 @@ export const SessionProvider = ({ children }) => {
           user: data,
         });
         return;
-      } else if (res.status === 401) {
-        setSession({
-          status: "unauthenticated",
-          user: {},
-        });
-        return;
       } else {
         setSession({
           status: "unauthenticated",
-          user: {},
         });
         return;
       }
     } catch (e) {
       setSession({
         status: "unauthenticated",
-        user: {},
       });
     }
   };
@@ -53,7 +43,6 @@ export const SessionProvider = ({ children }) => {
   const clearSession = () => {
     setSession({
       status: "unauthenticated",
-      user: {},
     });
   };
 

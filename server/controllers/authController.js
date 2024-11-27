@@ -22,7 +22,7 @@ async function login(req, res) {
       const username = user.username;
       const payload = { email, username };
       const token = jwt.sign(payload, secret, { expiresIn: "1h" });
-      res.cookie("token", token, {
+      res.cookie("auth.token", token, {
         httpOnly: true,
         secure: false,
         maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -44,7 +44,6 @@ async function addUser(req, res) {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       throw Error("Email is already registered");
-      return;
     }
 
     const hashed = await bcrypt.hash(password, 10);
@@ -59,7 +58,7 @@ async function addUser(req, res) {
           return res.status(201).json(newUser);
         }
         throw Error("Email not sent");
-        return;
+        
       } catch (e) {
         res.status(500).json({ message: e.message });
       }
@@ -87,7 +86,6 @@ async function VerifyUser(req, res) {
   try {
     if (!id || !code) {
       throw Error("OTP code is required");
-      return;
     }
 
     const verifyCode = await UserOtp.findOne({
@@ -96,7 +94,6 @@ async function VerifyUser(req, res) {
 
     if (!verifyCode) {
       throw new Error("Otp code doesn't exits or have been verified");
-      return;
     }
 
     const { expiresAt, otp } = verifyCode;
@@ -105,12 +102,12 @@ async function VerifyUser(req, res) {
         user_id: id,
       });
       throw new Error("Code has expired please request a new one");
-      return;
+   
     }
     const validOtp = await bcrypt.compare(code.toString(), otp);
     if (!validOtp) {
       throw new Error("Invalid OTP code");
-      return;
+      
     }
     await User.updateOne(
       { _id: id },
@@ -126,7 +123,7 @@ async function VerifyUser(req, res) {
       username: user.username,
     };
     const token = jwt.sign(payload, secret, { expiresIn: "1h" });
-    res.cookie("token", token, {
+    res.cookie("auth.token", token, {
       httpOnly: true,
       secure: false,
       maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -148,12 +145,11 @@ async function resendOtp(req, res) {
   try {
     if (!id) {
       throw Error("Id is required");
-      return;
+   
     }
     const exists = await User.findOne({ _id: id, verifiedAt: null });
     if (!exists) {
       throw new Error("User not found or has been verified");
-      return;
     }
     await UserOtp.deleteMany({
       user_id: id,
@@ -163,10 +159,13 @@ async function resendOtp(req, res) {
       return res.status(200).json({ message: `New OTP sent to ${user.email}` });
     }
     throw new Error("Email not sent");
-    return;
-  } catch (e) {
+   } catch (e) {
     res.status(404).json({ message: e.message });
   }
+}
+async function finduserByEmail(email) {
+   const user=await User.findOne({email:email})
+   return user
 }
 module.exports = {
   logout,
@@ -175,4 +174,5 @@ module.exports = {
   addUser,
   VerifyUser,
   resendOtp,
+  finduserByEmail
 };

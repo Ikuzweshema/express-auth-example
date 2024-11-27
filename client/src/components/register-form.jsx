@@ -1,6 +1,7 @@
 import { Card, CardBody } from "@nextui-org/card";
 import { Button, CardHeader, Input, Link } from "@nextui-org/react";
 import { Link as NavLink } from "react-router-dom";
+import GoogleProvider from "./google-provider";
 
 export default function RegisterForm({
   handleSubmit,
@@ -10,8 +11,8 @@ export default function RegisterForm({
   isLoading,
 }) {
   return (
-    <div className={"flex flex-col  items-center justify-center pt-20"}>
-      <Card className={"w-[35vw] p-10 mt-5 cursor-pointer"}>
+    <div className={"w-full flex flex-col  items-center justify-center pt-4"}>
+      <Card className={"w-full max-w-lg p-10 mt-5 cursor-pointer"}>
         <CardHeader className={"px-4 pt-2"}>
           <h4 className={"font-bold text-xl"}>Welcome to Auth app,</h4>
         </CardHeader>
@@ -70,10 +71,11 @@ export default function RegisterForm({
                 isLoading={isLoading}
                 disabled={isLoading}
               >
-                  {isLoading ? "Registering..": "Register" }
+                {isLoading ? "Registering.." : "Register"}
               </Button>
             </center>
           </form>
+          <GoogleProvider />
         </CardBody>
         <div className={"flex justify-center items-center gap-2"}>
           Already have an account?{" "}

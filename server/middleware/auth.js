@@ -1,15 +1,24 @@
 require("dotenv").config();
 
 const jwt = require("jsonwebtoken");
+const { finduserByEmail } = require("../controllers/authController");
 const secret = process.env.AUTH_SECRET;
-function authenticate(req, res, next) {
-  let token = req.cookies.token;
+
+async function authenticate(req, res, next) {
+  let token = req.cookies["auth.token"];
 
   if (!token) {
     return res.status(401).json("No Token");
   }
   try {
-    req.user = jwt.verify(token, secret);
+    token = jwt.verify(token, secret);
+    const existingUser = await finduserByEmail(token.email);
+    const user = {
+      ...token,
+      id: existingUser._id,
+      image: existingUser.image,
+    };
+    req.user = user;
   } catch (err) {
     return res.status(403).json({ message: "Invalid Token" });
   }

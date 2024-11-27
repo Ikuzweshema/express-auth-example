@@ -13,12 +13,17 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: false,
+    },
+    image:{
+    type:String,
+    required:false
     },
     verifiedAt: {
       type: Date,
       default: null,
     },
+    
   },
   {
     timestamps: true,

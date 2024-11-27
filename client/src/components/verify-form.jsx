@@ -16,8 +16,8 @@ export default function VerifyForm({
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   return (
-    <div className={"flex flex-col   items-center justify-center pt-20"}>
-      <Card className={"w-[40vw] p-10 mt-5 cursor-pointer"}>
+    <div className={"flex flex-col  w-full  items-center justify-center pt-20"}>
+      <Card className={"w-full max-w-lg p-10 mt-5 cursor-pointer"}>
         <CardHeader className={"px-4 pt-2 flex items-center justify-center"}>
           <img src={"/logo.png"} width={130} height={150} />
         </CardHeader>
@@ -60,7 +60,7 @@ export default function VerifyForm({
           </form>
         </CardBody>
         <div className={"flex justify-center items-center gap-2"}>
-          Don't see code
+          Dont see code
           <Link showAnchorIcon className={"text-primary"}>
             {!isDisabled ? (
               <button type={"button"} onClick={handleSendNewCode}>

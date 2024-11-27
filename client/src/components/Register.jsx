@@ -6,6 +6,7 @@ import RegisterForm from "./register-form.jsx";
 
 export default function Register() {
   const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -15,10 +16,10 @@ export default function Register() {
   });
 
   const [error, setError] = useState({
-    email: "",
-    username: "",
-    password: "",
-    cpassword: "",
+    email: undefined,
+    username: undefined,
+    password: undefined,
+    cpassword: undefined,
   });
 
   const handleChange = (event) => {
@@ -32,16 +33,17 @@ export default function Register() {
     event.preventDefault();
     const { username, email, password, cpassword } = formData;
 
-    const validationErrors = validate(email, username, password, cpassword);
-    setError(validationErrors);
-    if (Object.keys(validationErrors).length > 0) {
+    const validation = validate(email, username, password, cpassword);
+    if (!validation.success) {
+      setError(validation.errors.fieldErrors);
+
       return;
     }
 
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "https://express-auth-example.onrender.com/api/auth/register",
+        `${import.meta.env.VITE_SEVER_URL}/api/auth/register`,
         {
           username: username,
           email: email,
@@ -52,7 +54,7 @@ export default function Register() {
           headers: {
             "Content-Type": "application/json",
           },
-        },
+        }
       );
       if (res.status === 201) {
         const user = await res.data;
@@ -69,7 +71,7 @@ export default function Register() {
   };
 
   return (
-    <div className="dark text-foreground bg-background h-[110vh]">
+    <div className="dark w-full text-foreground bg-background h-screen">
       <RegisterForm
         error={error}
         handleChange={handleChange}

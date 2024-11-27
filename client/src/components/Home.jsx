@@ -1,14 +1,12 @@
-import { useState, useActionState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import LoginForm from "./login-form.jsx";
-import { useNavigate } from "react-router-dom";
-import {useSession} from "../hooks/use-session.jsx";
 
 export default function Home() {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  // const {redirect}=useSession()
+  
   const handleChange = (event) => {
     setFormData((prevData) => {
       return {
@@ -22,7 +20,7 @@ export default function Home() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "https://express-auth-example.onrender.com/api/auth/login",
+        `${import.meta.env.VITE_SEVER_URL}/api/auth/login`,
 
         {
           email: formData.email,
@@ -34,10 +32,10 @@ export default function Home() {
           headers: {
             "Content-Type": "application/json",
           },
-        },
+        }
       );
       if (res.status === 200) {
-        return window.location.replace("/dashboard")
+        return window.location.replace("/dashboard");
       }
       if (res.status === 401) {
         setError("Invalid credentials ");
@@ -50,6 +48,7 @@ export default function Home() {
       setIsLoading(false);
     }
   };
+
   return (
     <div className="dark text-foreground bg-background h-[100vh]">
       <LoginForm
@@ -58,6 +57,7 @@ export default function Home() {
         handleSubmit={handleSubmit}
         handleChange={handleChange}
         isLoading={isLoading}
+     
       />
     </div>
   );

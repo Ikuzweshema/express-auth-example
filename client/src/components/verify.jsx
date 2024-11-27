@@ -9,7 +9,7 @@ export default function Verify() {
   const location = useLocation();
   const { id } = location.state;
   const [isLoading, setIsLoading] = useState(false);
-  const [isRequesting, setIsRequesting] = useState(false);
+  const [_, setIsRequesting] = useState(false);
   const [code, setCode] = useState("");
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
@@ -26,7 +26,7 @@ export default function Verify() {
     try {
       setIsLoading(true)
       const res = await axios.post(
-        `https://express-auth-example.onrender.com/api/auth/verify/`,
+        `${import.meta.env.VITE_SEVER_URL}/api/auth/verify/`,
         {
           id: id,
           code: code,
@@ -56,7 +56,7 @@ export default function Verify() {
     setIsRequesting(true)
     try {
       const res = await axios.post(
-        "https://express-auth-example.onrender.com/api/auth/resend",
+        `${import.meta.env.VITE_SEVER_URL}/api/auth/resend`,
         {
           id: id,
         },

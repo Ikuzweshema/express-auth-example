@@ -11,6 +11,4 @@ const userOtpSchema = new Schema(
         timestamps: true,
     },
 );
-
-// Correct way to create and export the model
 module.exports = mongoose.model("UserOtp", userOtpSchema);

@@ -16,14 +16,13 @@ import {
 } from "@nextui-org/react";
 import axios from "axios";
 import { useSession } from "../hooks/use-session";
-import { useNavigate, redirect } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 export default function Nav() {
   const navigate = useNavigate();
   const { session, clearSession } = useSession();
   async function handleLogout() {
-    const res = await axios.delete("https://express-auth-example.onrender.com/api/auth/logout", {
+    const res = await axios.delete(`${import.meta.env.VITE_SEVER_URL}/api/auth/logout`, {
       withCredentials: true,
     });
     if (res.status === 200) {
@@ -33,16 +32,14 @@ export default function Nav() {
     return null;
   }
   return (
-    <Navbar isBordered={true}>
+    <Navbar className="w-full h-20" isBordered={true}>
       <NavbarBrand>
-        <img src={"/logo.png"} width={50} height={60} />
+        <img src={"/logo.png"} width={80} height={80} />
       </NavbarBrand>
       <NavbarContent className={"flex gap-x-10"}>
-        <NavbarItem></NavbarItem>
-        <NavbarItem>Dashboard</NavbarItem>
-        <NavbarItem>Products</NavbarItem>
-        <NavbarItem>Chart</NavbarItem>
-        <NavbarItem>Report</NavbarItem>
+        <NavbarItem className="font-semibold text-lg">
+          Express Auth Example
+        </NavbarItem>
       </NavbarContent>
       <NavbarContent justify={"end"}>
         <Dropdown placement={"bottom"} className={"bg-inherit"}>
@@ -51,16 +48,14 @@ export default function Nav() {
               isBordered={true}
               as="button"
               className={"transition-transform"}
-              color={"secondary"}
+              color={"primary"}
               name={"user"}
-              size={"sm"}
-              src={"https://i.pravatar.cc/"}
+              size={"md"}
+              src={session.user.image || "https://i.pravatar.cc/"}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="menu">
-            <DropdownItem className={"text-white"}>
-              {session.user.username}
-            </DropdownItem>
+            <DropdownItem className={"text-white"}>{session?.user?.name}</DropdownItem>
             <DropdownItem className={"text-white"}>Profile</DropdownItem>
             <DropdownItem className={"text-white"}>Settings</DropdownItem>
             <DropdownItem variant={"light"}>
@@ -68,6 +63,7 @@ export default function Nav() {
               <Button
                 className={"w-full" + "" + ""}
                 type={"button"}
+                size="sm"
                 color={"danger"}
                 onClick={handleLogout}
               >
